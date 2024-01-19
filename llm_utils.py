@@ -1,3 +1,6 @@
+"""
+Source: libs/community/langchain_community/llms/huggingface_hub.py
+"""
 from typing import Any, Dict, List, Mapping, Optional
 
 from langchain_core.callbacks import CallbackManagerForLLMRun
