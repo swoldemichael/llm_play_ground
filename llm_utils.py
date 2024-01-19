@@ -1,5 +1,5 @@
 """
-Source: libs/community/langchain_community/llms/huggingface_hub.py
+Source: https://github.com/langchain-ai/langchain/blob/master/libs/community/langchain_community/llms/huggingface_hub.py
 """
 from typing import Any, Dict, List, Mapping, Optional
 
