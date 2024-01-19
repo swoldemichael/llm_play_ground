@@ -1,5 +1,11 @@
 """
-Source: https://github.com/langchain-ai/langchain/blob/master/libs/community/langchain_community/llms/huggingface_hub.py
+This is un update I made locally from the following
+Main change is using InferenceClient API form HF Hub
+to call services. 
+Reference: https://huggingface.co/docs/huggingface_hub/package_reference/inference_client
+Reason to change: InferenceApi was previously used; it's use 
+is deprecated now.
+Reference: https://github.com/langchain-ai/langchain/blob/master/libs/community/langchain_community/llms/huggingface_hub.py
 """
 from typing import Any, Dict, List, Mapping, Optional
 
@@ -20,14 +26,12 @@ class HuggingFaceHub(LLM):
     To use, you should have the ``huggingface_hub`` python package installed, and the
     environment variable ``HUGGINGFACEHUB_API_TOKEN`` set with your API token, or pass
     it as a named parameter to the constructor.
-
-    Only supports `text-generation`, `text2text-generation` and `summarization` for now.
+    
+    Note: Local update only supports `text-generation`, and `summarization` for now.
 
     Example:
         .. code-block:: python
 
-            from langchain_community.llms import HuggingFaceHub
-            hf = HuggingFaceHub(repo_id="gpt2", huggingfacehub_api_token="my-api-key")
     """
 
     client: Any  #: :meta private:
@@ -83,7 +87,6 @@ class HuggingFaceHub(LLM):
         """Return type of llm."""
         return "huggingface_hub"
 
-
     def invoke(self,
         prompt: str,
         stop: Optional[List[str]] = None,
@@ -100,8 +103,6 @@ class HuggingFaceHub(LLM):
 
             Example:
                 .. code-block:: python
-
-                    response = hf("Tell me a joke.")
             """
             _model_kwargs = self.model_kwargs or {}
             params = {**_model_kwargs, **kwargs}
@@ -112,7 +113,6 @@ class HuggingFaceHub(LLM):
                 text = self.client.text_generation(prompt, model=repo_id, stop_sequences=stop, **kwargs)
             elif task == 'summarization':
                 text = self.client.summarization(prompt, model=repo_id, **kwargs)
-
             else:
                 raise ValueError(
                     f"Got invalid task {task}, "
